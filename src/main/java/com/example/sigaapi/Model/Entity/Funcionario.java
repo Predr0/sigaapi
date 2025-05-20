@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 
 public class Funcionario extends Pessoa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String cargo;
-    private double salario;
+    private Double salario;
 }
 
 

@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 
 public class Aluno extends Pessoa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String mensalidade;
 }

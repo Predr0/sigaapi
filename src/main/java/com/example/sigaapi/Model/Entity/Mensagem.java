@@ -14,8 +14,7 @@ import lombok.NoArgsConstructor;
 public class Mensagem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int alunoId;
+    private Integer id;
     private String remetente;
     private String destinatario;
     private String data;

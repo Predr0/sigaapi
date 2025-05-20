@@ -14,10 +14,8 @@ import lombok.NoArgsConstructor;
 public class Pagamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int alunoId;
-    private int funcionarioId;
-    private double valor;
+    private Integer id;
+    private Double valor;
     private String datePagamento;
     private String formaPagamento;
 

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Acompanhamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String nome;
     private String descricao;
 

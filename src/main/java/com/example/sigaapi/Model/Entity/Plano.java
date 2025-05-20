@@ -14,12 +14,11 @@ import lombok.NoArgsConstructor;
 public class Plano {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int alunoId;
+    private Integer id;
     private String nome;
     private String descricao;
-    private double valor;
-    private int duracao;
+    private Double valor;
+    private Integer duracao;
 
     @ManyToOne
     private Aluno aluno;
