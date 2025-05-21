@@ -21,5 +21,3 @@ public class Acompanhamento {
     @ManyToOne
     private Funcionario funcionario;
 }
-
-

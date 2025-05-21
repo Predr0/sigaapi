@@ -1,6 +1,5 @@
-package com.example.saaapi.api.dto;
+package com.example.sigaapi.api.dto;
 
-import com.example.sigaapi.Model.Entity.Acompanhamento;
 import com.example.sigaapi.Model.Entity.Aluno;
 import lombok.AllArgsConstructor;
 import lombok.Data;

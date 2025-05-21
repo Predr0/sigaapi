@@ -1,4 +1,4 @@
-package com.example.saaapi.api.dto;
+package com.example.sigaapi.api.dto;
 
 import com.example.sigaapi.Model.Entity.Pagamento;
 import lombok.AllArgsConstructor;
