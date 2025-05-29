@@ -1,13 +1,18 @@
-package com.example.sigaapi.api.dto.controller;
+package com.example.sigaapi.api.controller;
 
 import com.example.sigaapi.Model.Entity.Funcionario;
-import org.modelmapper.ModelMapper;
 import com.example.sigaapi.api.dto.FuncionarioDTO;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.web.bind.annotation.*;
 
+@RestController
+@RequestMapping("/api/v1/funcionarios")
+@RequiredArgsConstructor
 public class FuncionarioController {
-    public Funcionario Converter(FuncionarioDTO dto) {
+
+    public Funcionario converter(FuncionarioDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
-        Funcionario funcionario = modelMapper.map(dto, Funcionario.class);
-        return funcionario;
+        return modelMapper.map(dto, Funcionario.class);
     }
 }
