@@ -7,10 +7,9 @@ import com.example.sigaapi.service.FuncionarioService;
 import com.example.sigaapi.service.PagamentoService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +31,41 @@ public class PagamentoController {
                 .map(PagamentoDTO::create)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> get(@PathVariable("id") Long id) {
+        Optional<Pagamento> pagamento = pagamentoService.getPagamentoById(id);
+        if (!pagamento.isPresent()) {
+            return new ResponseEntity<>("Pagamento não encontrado", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(PagamentoDTO.create(pagamento.get()));
+    }
+
+    @PostMapping
+    public ResponseEntity<?> post(@RequestBody PagamentoDTO dto) {
+        try {
+            Pagamento pagamento = converter(dto);
+            pagamento = pagamentoService.salvar(pagamento);
+            return new ResponseEntity<>(pagamento, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> put(@PathVariable("id") Long id, @RequestBody PagamentoDTO dto) {
+        if (!pagamentoService.getPagamentoById(id).isPresent()) {
+            return new ResponseEntity<>("Pagamento não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Pagamento pagamento = converter(dto);
+            pagamento.setId(id);
+            pagamentoService.salvar(pagamento);
+            return ResponseEntity.ok(pagamento);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     public Pagamento converter(PagamentoDTO dto) {

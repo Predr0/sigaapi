@@ -10,7 +10,7 @@ import org.modelmapper.ModelMapper;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AcompanhamentoDTO {
-    private int id;
+    private Long id;
     private String nome;
     private String descricao;
     private Long idFuncionario;

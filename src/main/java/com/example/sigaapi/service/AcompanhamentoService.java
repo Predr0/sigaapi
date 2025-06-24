@@ -22,6 +22,7 @@ public class AcompanhamentoService {
         return repository.findAll();
     }
 
+
     public Optional<Acompanhamento> getAcompanhamentoById(Long id) {
         return repository.findById(id);
     }

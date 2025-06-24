@@ -7,10 +7,9 @@ import com.example.sigaapi.service.FuncionarioService;
 import com.example.sigaapi.service.ModalidadeService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +31,41 @@ public class ModalidadeController {
                 .map(ModalidadeDTO::create)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> get(@PathVariable("id") Long id) {
+        Optional<Modalidade> modalidade = modalidadeService.getModalidadeById(id);
+        if (!modalidade.isPresent()) {
+            return new ResponseEntity<>("Modalidade não encontrada", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(ModalidadeDTO.create(modalidade.get()));
+    }
+
+    @PostMapping
+    public ResponseEntity<?> post(@RequestBody ModalidadeDTO dto) {
+        try {
+            Modalidade modalidade = converter(dto);
+            modalidade = modalidadeService.salvar(modalidade);
+            return new ResponseEntity<>(modalidade, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> put(@PathVariable("id") Long id, @RequestBody ModalidadeDTO dto) {
+        if (!modalidadeService.getModalidadeById(id).isPresent()) {
+            return new ResponseEntity<>("Modalidade não encontrada", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Modalidade modalidade = converter(dto);
+            modalidade.setId(id);
+            modalidadeService.salvar(modalidade);
+            return ResponseEntity.ok(modalidade);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     public Modalidade converter(ModalidadeDTO dto) {
