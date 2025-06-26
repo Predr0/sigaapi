@@ -12,6 +12,9 @@ import org.modelmapper.ModelMapper;
 public class PlanoDTO {
     private Long id;
     private String nome;
+    private String descricao;
+    private Double valor;
+    private Double duracao;
     private Long idAluno;
     private String nomeAluno;
 

@@ -1,7 +1,10 @@
+package com.example.sigaapi.api.controller;
+
 import com.example.sigaapi.Model.Entity.Aluno;
 import com.example.sigaapi.Model.Entity.Funcionario;
 import com.example.sigaapi.Model.Entity.Modalidade;
 import com.example.sigaapi.api.dto.ModalidadeDTO;
+import com.example.sigaapi.exception.RegraNegocioException;
 import com.example.sigaapi.service.AlunoService;
 import com.example.sigaapi.service.FuncionarioService;
 import com.example.sigaapi.service.ModalidadeService;
@@ -64,6 +67,20 @@ public class ModalidadeController {
             modalidadeService.salvar(modalidade);
             return ResponseEntity.ok(modalidade);
         } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Modalidade> modalidade = modalidadeService.getModalidadeById(id);
+        if (!modalidade.isPresent()) {
+            return new ResponseEntity("Modalidade não encontrada", HttpStatus.NOT_FOUND);
+        }
+        try {
+            modalidadeService.excluir(modalidade.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

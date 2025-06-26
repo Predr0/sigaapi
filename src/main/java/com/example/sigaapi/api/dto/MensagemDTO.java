@@ -12,6 +12,9 @@ import org.modelmapper.ModelMapper;
 public class MensagemDTO {
     private Long id;
     private String conteudo;
+    private String remetente;
+    private String destinatario;
+    private String data;
     private Long idAluno;
     private String nomeAluno;
 

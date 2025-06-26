@@ -19,8 +19,14 @@ public class AcompanhamentoDTO {
     public static AcompanhamentoDTO create(Acompanhamento acompanhamento) {
         ModelMapper modelMapper = new ModelMapper();
         AcompanhamentoDTO dto = modelMapper.map(acompanhamento, AcompanhamentoDTO.class);
-        dto.nomeFuncionario = acompanhamento.getFuncionario().getNome();
+
+        if (acompanhamento.getFuncionario() != null) {
+            dto.nomeFuncionario = acompanhamento.getFuncionario().getNome();
+        } else {
+            dto.nomeFuncionario = null;
+        }
+
         return dto;
     }
-
 }
+

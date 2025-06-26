@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 public class ModalidadeDTO {
     private Long id;
     private String nome;
+    private String descricao;
     private Long idFuncionario;
     private String nomeFuncionario;
     private Long idAluno;

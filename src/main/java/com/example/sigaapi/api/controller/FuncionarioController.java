@@ -2,6 +2,7 @@ package com.example.sigaapi.api.controller;
 
 import com.example.sigaapi.Model.Entity.Funcionario;
 import com.example.sigaapi.api.dto.FuncionarioDTO;
+import com.example.sigaapi.exception.RegraNegocioException;
 import com.example.sigaapi.service.FuncionarioService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -54,6 +55,20 @@ public class FuncionarioController {
         funcionario.setId(id);
         funcionarioService.salvar(funcionario);
         return ResponseEntity.ok(funcionario);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Funcionario> funcionario = funcionarioService.getFuncionarioById(id);
+        if (!funcionario.isPresent()) {
+            return new ResponseEntity("Funcionário não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            funcionarioService.excluir(funcionario.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     public Funcionario converter(FuncionarioDTO dto) {

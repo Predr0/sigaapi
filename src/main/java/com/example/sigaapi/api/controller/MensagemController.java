@@ -1,6 +1,9 @@
+package com.example.sigaapi.api.controller;
+
 import com.example.sigaapi.Model.Entity.Aluno;
 import com.example.sigaapi.Model.Entity.Mensagem;
 import com.example.sigaapi.api.dto.MensagemDTO;
+import com.example.sigaapi.exception.RegraNegocioException;
 import com.example.sigaapi.service.AlunoService;
 import com.example.sigaapi.service.MensagemService;
 import lombok.RequiredArgsConstructor;
@@ -61,6 +64,20 @@ public class MensagemController {
             mensagemService.salvar(mensagem);
             return ResponseEntity.ok(mensagem);
         } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Mensagem> mensagem = mensagemService.getMensagemById(id);
+        if (!mensagem.isPresent()) {
+            return new ResponseEntity("Mensagem não encontrada", HttpStatus.NOT_FOUND);
+        }
+        try {
+            mensagemService.excluir(mensagem.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

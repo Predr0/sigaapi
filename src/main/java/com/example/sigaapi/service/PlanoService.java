@@ -48,7 +48,7 @@ public class PlanoService {
         if (plano.getValor() == null || plano.getValor() <= 0) {
             throw new RegraNegocioException("Valor inválido");
         }
-        if (plano.getDuracao() <= 0) {
+        if (plano.getDuracao() == null || plano.getDuracao() <= 0) {
             throw new RegraNegocioException("Duração inválida");
         }
     }

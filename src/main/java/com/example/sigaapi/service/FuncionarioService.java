@@ -1,9 +1,12 @@
 package com.example.sigaapi.service;
 
+import com.example.sigaapi.Model.Entity.Acompanhamento;
 import com.example.sigaapi.Model.Entity.Funcionario;
 import com.example.sigaapi.Model.Repository.FuncionarioRepository;
+import com.example.sigaapi.api.dto.AcompanhamentoDTO;
 import com.example.sigaapi.exception.RegraNegocioException;
 import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +34,6 @@ public class FuncionarioService {
         validar(funcionario);
         return repository.save(funcionario);
     }
-
     @Transactional
     public void excluir(Funcionario funcionario) {
         Objects.requireNonNull(funcionario.getId());

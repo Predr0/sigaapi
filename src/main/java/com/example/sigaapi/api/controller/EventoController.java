@@ -1,5 +1,6 @@
 package com.example.sigaapi.api.controller;
 
+import com.example.sigaapi.Model.Entity.Mensagem;
 import com.example.sigaapi.api.dto.EventoDTO;
 import com.example.sigaapi.exception.RegraNegocioException;
 import com.example.sigaapi.Model.Entity.Aluno;
@@ -65,6 +66,20 @@ public class EventoController {
             evento.setId(id);
             eventoService.salvar(evento);
             return ResponseEntity.ok(evento);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Evento> evento = eventoService.getEventoById(id);
+        if (!evento.isPresent()) {
+            return new ResponseEntity("Evento não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            eventoService.excluir(evento.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -1,3 +1,5 @@
+package com.example.sigaapi.api.controller;
+
 import com.example.sigaapi.Model.Entity.Aluno;
 import com.example.sigaapi.Model.Entity.Plano;
 import com.example.sigaapi.api.dto.PlanoDTO;

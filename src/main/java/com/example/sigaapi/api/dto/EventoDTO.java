@@ -12,6 +12,9 @@ import org.modelmapper.ModelMapper;
 public class EventoDTO {
     private Long id;
     private String nome;
+    private String descricao;
+    private String data;
+    private String local;
     private Long idAluno;
     private String nomeAluno;
     private Long idFuncionario;

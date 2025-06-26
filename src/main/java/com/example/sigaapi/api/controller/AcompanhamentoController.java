@@ -3,6 +3,7 @@ package com.example.sigaapi.api.controller;
 import com.example.sigaapi.Model.Entity.Acompanhamento;
 import com.example.sigaapi.Model.Entity.Funcionario;
 import com.example.sigaapi.api.dto.AcompanhamentoDTO;
+import com.example.sigaapi.exception.RegraNegocioException;
 import com.example.sigaapi.service.AcompanhamentoService;
 import com.example.sigaapi.service.FuncionarioService;
 import lombok.RequiredArgsConstructor;
@@ -38,14 +39,14 @@ public class AcompanhamentoController {
         if (!acompanhamento.isPresent()) {
             return new ResponseEntity("Acompanhamento não encontrado", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(acompanhamento.map(AcompanhamentoDTO::create));
+        return ResponseEntity.ok(AcompanhamentoDTO.create(acompanhamento.get()));
     }
 
     @PostMapping()
     public ResponseEntity post(@RequestBody AcompanhamentoDTO dto) {
         Acompanhamento acompanhamento = converter(dto);
         acompanhamento = acompanhamentoService.salvar(acompanhamento);
-        return new ResponseEntity(acompanhamento, HttpStatus.CREATED);
+        return new ResponseEntity(AcompanhamentoDTO.create(acompanhamento), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -56,7 +57,21 @@ public class AcompanhamentoController {
         Acompanhamento acompanhamento = converter(dto);
         acompanhamento.setId(id);
         acompanhamentoService.salvar(acompanhamento);
-        return ResponseEntity.ok(acompanhamento);
+        return ResponseEntity.ok(AcompanhamentoDTO.create(acompanhamento));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Acompanhamento> acompanhamento = acompanhamentoService.getAcompanhamentoById(id);
+        if (!acompanhamento.isPresent()) {
+            return new ResponseEntity("Acompanhamento não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            acompanhamentoService.excluir(acompanhamento.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     public Acompanhamento converter(AcompanhamentoDTO dto) {
@@ -67,7 +82,6 @@ public class AcompanhamentoController {
             Optional<Funcionario> funcionario = funcionarioService.getFuncionarioById(dto.getIdFuncionario());
             acompanhamento.setFuncionario(funcionario.orElse(null));
         }
-
         return acompanhamento;
     }
 }

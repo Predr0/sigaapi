@@ -12,6 +12,8 @@ import org.modelmapper.ModelMapper;
 public class PagamentoDTO {
     private Long id;
     private Double valor;
+    private String datePagamento;
+    private String formaPagamento;
     private Long idFuncionario;
     private String nomeFuncionario;
     private Long idAluno;
