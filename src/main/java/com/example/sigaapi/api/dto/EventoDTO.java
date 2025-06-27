@@ -23,9 +23,18 @@ public class EventoDTO {
     public static EventoDTO create(Evento evento) {
         ModelMapper modelMapper = new ModelMapper();
         EventoDTO dto = modelMapper.map(evento, EventoDTO.class);
-        dto.nomeFuncionario = evento.getFuncionario().getNome();
-        dto.nomeAluno = evento.getAluno().getNome();
+
+        if (evento.getFuncionario() != null) {
+            dto.setIdFuncionario(evento.getFuncionario().getId());
+            dto.setNomeFuncionario(evento.getFuncionario().getNome());
+        }
+
+        if (evento.getAluno() != null) {
+            dto.setIdAluno(evento.getAluno().getId());
+            dto.setNomeAluno(evento.getAluno().getNome());
+        }
+
         return dto;
     }
-
 }
+
